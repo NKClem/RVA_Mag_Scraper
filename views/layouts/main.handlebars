@@ -3,6 +3,9 @@
     <head>
         <meta charset="utf-8">
 
+        <!-- font awesome -->
+        <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
         <!-- bootstrap 4.0 -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -12,6 +15,28 @@
         <title>RVA Scrape</title>
     </head>
     <body>
-        {{{ body }}}
+        <div class="sticky-top">
+            <nav class="navbar navbar-expand-md navbar-light bg-light">
+                <a class="navbar-brand" href="#">
+                    <i class="far fa-newspaper"></i>
+                </a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#collapse-nav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="pull-right collapse navbar-collapse" id="collapse-nav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Saved Articles</a>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link btn btn-danger">Scrape For Articles</button>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="container-fluid">
+            {{{ body }}}
+        </div>
     </body>
 </html>

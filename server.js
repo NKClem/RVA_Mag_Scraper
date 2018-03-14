@@ -41,6 +41,10 @@ connect.once("open", function() {
     console.log("You are connected!");
 });
 
+app.get("/", function(req, res) {
+    res.render("index");
+});
+
 app.listen(PORT, function() {
     console.log(`App running on port: ${PORT}!`);
 });
