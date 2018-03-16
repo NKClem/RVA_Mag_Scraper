@@ -1,0 +1,36 @@
+<div class="col-lg-12 jumbotron">
+    <h1 class="text-center">
+        Mongo News Scraper
+    </h1>
+    <p class="text-center">
+        RVA Magazine Edition
+    </p>
+</div>
+<div class="col-lg-12">
+    {{#if article}}
+        {{#each article}}
+            <div class="card">
+                <div class="card-header">
+                    <h5>
+                        {{this.title}}
+                    </h5>
+                    <button type="button" class="btn btn-success save" data-id={{this._id}}>Save Article</button>
+                </div>
+                <div class="card-body">
+                    <p>
+                        {{this.summary}}
+                    </p>
+                    <a href={{this.link}} target="_blank">Read More</a>
+                </div>
+            </div>
+        {{/each}}
+    {{else}}
+        <div class="card">
+            <div class="card-body">
+                <h5>
+                    Oops... Looks like we don't have any new articles.
+                </h5>
+            </div>
+        </div>
+    {{/if}}
+</div>
