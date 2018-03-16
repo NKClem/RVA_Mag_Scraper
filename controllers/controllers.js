@@ -7,7 +7,9 @@ const cheerio = require("cheerio");
 
 const db = require("../models");
 
-app.get("/", function(req, res) {
+const router = express.Router();
+
+router.get("/", function(req, res) {
     db.Article.finx({ "saved": false }, function(err, data) {
         let hbsObj = {
             article: data
@@ -17,7 +19,7 @@ app.get("/", function(req, res) {
     });
 });
 
-app.get("/saved", function(req, res) {
+router.get("/saved", function(req, res) {
     db.Article
         .find({ "saved": true })
         .populate("notes")
@@ -29,7 +31,7 @@ app.get("/saved", function(req, res) {
         });
 });
 
-app.get("/scrape", function(req, res) {
+router.get("/scrape", function(req, res) {
     axios.get("https://rvamag.com/").then(function(response) {
         const $ = cheerio.load(response.data);
 
@@ -54,7 +56,7 @@ app.get("/scrape", function(req, res) {
     });
 });
 
-app.get("/articles", function(req, res) {
+router.get("/articles", function(req, res) {
     db.Article.find({})
         .then(function(dbArticle) {
             res.json(dbArticle);
@@ -64,7 +66,7 @@ app.get("/articles", function(req, res) {
         });
 });
 
-app.get("/articles/:id", function(req, res) {
+router.get("/articles/:id", function(req, res) {
     db.Article.findOne({ _id: req.params.id })
     .populate("note")
     .then(function(dbArticle) {
@@ -75,7 +77,7 @@ app.get("/articles/:id", function(req, res) {
     });
 });
 
-app.post("/articles/save/:id", function(req, res) {
+router.post("/articles/save/:id", function(req, res) {
     db.Article
         .findOneAndUpdate({ _id: req.params.id }, { "saved": true })
         .then(function(dbArticle) {
@@ -86,7 +88,7 @@ app.post("/articles/save/:id", function(req, res) {
         });
 });
 
-app.post("/articles/delete/:id", function(req, res) {
+router.post("/articles/delete/:id", function(req, res) {
     db.Article
         .findOneAndUpdate({ _id: req.params.id }, { "saved": false, "note": [] })
         .then(function(dbArticle) {
@@ -97,7 +99,7 @@ app.post("/articles/delete/:id", function(req, res) {
         });
 });
 
-app.post("/notes/save/:id", function(req, res) {
+router.post("/notes/save/:id", function(req, res) {
     db.Note
         .create(req.body)
         .then(function(dbNote) {
@@ -111,7 +113,7 @@ app.post("/notes/save/:id", function(req, res) {
         });
 });
 
-app.delete("/notes/delete/:note_id/:article_id", function(req, res) {
+router.delete("/notes/delete/:note_id/:article_id", function(req, res) {
     db.Note.findOneAndRemove({ _id: req.params.note_id }, function(err) {
         if (err) {
             res.json(err);
@@ -125,5 +127,7 @@ app.delete("/notes/delete/:note_id/:article_id", function(req, res) {
             });
         }
     })
-})
+});
+
+module.exports = router;
 
