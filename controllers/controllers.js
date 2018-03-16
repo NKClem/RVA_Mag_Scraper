@@ -97,3 +97,33 @@ app.post("/articles/delete/:id", function(req, res) {
         });
 });
 
+app.post("/notes/save/:id", function(req, res) {
+    db.Note
+        .create(req.body)
+        .then(function(dbNote) {
+            return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+        })
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function(err) {
+            res.json(err);
+        });
+});
+
+app.delete("/notes/delete/:note_id/:article_id", function(req, res) {
+    db.Note.findOneAndRemove({ _id: req.params.note_id }, function(err) {
+        if (err) {
+            res.json(err);
+        } else {
+            db.Article.findOneAndUpdate({ _id: req.params.article_id }, {$pull: { "note": req.params.note_id }})
+            .then(function(dbArticle) {
+                res.json(dbArticle);
+            })
+            .catch(function(err) {
+                res.json(err);
+            });
+        }
+    })
+})
+
