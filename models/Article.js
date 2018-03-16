@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Note = require("./Note");
 
 const Schema = mongoose.Schema;
 
@@ -7,16 +8,20 @@ let ArticleSchema = new Schema({
         type: String,
         require: true
     },
+    summary: {
+        type: String,
+        required: true
+    },
     link: {
         type: String,
         require: true
     },
-    note: {
+    note: [{
         type: Schema.Types.ObjectId,
         ref: "Note"
-    }
+    }]
 });
 
-const Article = mongoose.model("article", ArticleSchema);
+const Article = mongoose.model("Article", ArticleSchema);
 
 module.exports = Article;
