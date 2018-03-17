@@ -61,7 +61,7 @@ $(".delete-note").on("click", function() {
 
     $.ajax({
         method: "DELETE",
-        url: `/notes/delete/${noteId}/${articleId}`
+        url: "/notes/delete/" + noteId + "/" + articleId
     }).done(function(data) {
         console.log(data);
         $(".note-modal").modal("hide");

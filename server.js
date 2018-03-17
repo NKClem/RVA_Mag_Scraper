@@ -6,6 +6,7 @@ const request = require("request");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 const exphbs = require("express-handlebars");
+const path = require("path");
 const mongoose = require("mongoose");
 const cheerio = require("cheerio");
 
@@ -25,7 +26,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
 //express-handlebars serves views
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+const hbs = exphbs.create({
+    defaultLayout: "main",
+    partialsDir: "views/partials/"
+});
+app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 
 //connect to Mongo DB
