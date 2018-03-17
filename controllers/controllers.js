@@ -11,23 +11,30 @@ const router = express.Router();
 
 router.get("/", function(req, res) {
     db.Article.find({ "saved": false }, function(err, data) {
-        let hbsObj = {
-            article: data
-        };
-        console.log(hbsObj);
-        res.render("index", hbsObj);
+        if (err) {
+            console.log(err);
+        } else {
+            let hbsObj = {
+                article: data
+            };
+            res.render("index", hbsObj);
+        }
     });
 });
 
 router.get("/saved", function(req, res) {
     db.Article
         .find({ "saved": true })
-        .populate("notes")
-        .exec(function(err, articles) {
-            let hbsObj = {
-                article: articles
-            };
-            res.render("saved", hbsObj);
+        .populate("note")
+        .exec(function(err, dbArticle) {
+            if (err) {
+                console.log(err);
+            } else {
+                let hbsObj = {
+                    article: dbArticle
+                };
+                res.render("saved", hbsObj);
+            }
         });
 });
 

@@ -2,9 +2,9 @@
     <h1 class="text-center">
         Mongo News Scraper
     </h1>
-    <p class="text-center">
-        RVA Magazine Edition
-    </p>
+    <h3 class="text-center">
+        Your Saved Articles
+    </h3>
 </div>
 <div class="col-lg-12">
     {{#if article}}
@@ -13,7 +13,8 @@
                 <div class="card-header">
                     <h5>
                         {{this.title}}
-                        <button type="button" class="btn btn-success" id="save-article" data-id={{this._id}}>Save Article</button>
+                        <button type="button" class="btn btn-success" id="see-notes" data-toggle="modal" data-target="#notes-modal{{this._id}}" data-id={{this._id}}>Article Notes</button>
+                        <button type="button" class="btn btn-danger" id="delete-article" data-id={{this._id}}>Remove From Saved Articles</button>
                     </h5>
                 </div>
                 <div class="card-body">
@@ -28,7 +29,7 @@
         <div class="card">
             <div class="card-body">
                 <h5>
-                    Oops... Looks like we don't have any new articles.
+                    You have no saved articles at this time.
                 </h5>
             </div>
         </div>
