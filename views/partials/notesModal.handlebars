@@ -10,8 +10,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                {{#if this.notes}}
-                    {{#each this.notes}}
+                {{#if this.note}}
+                    {{#each this.note}}
                         <div class="card">
                             <div class="card-body">
                                 <p id="added-note">
@@ -28,10 +28,15 @@
                         </div>
                     </div>
                 {{/if}}
-                <div class="form-group">
-                    <textarea id="note-text{{this._id}}" class="form-control" rows="5" placeholder="Add a note here."></textarea>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <textarea id="note-text{{this._id}}" name="text" class="form-control" rows="5" placeholder="Add a note here."></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
+                
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="save-note" data-id={{this._id}}>Save Note</button>
             </div>

@@ -10,37 +10,14 @@ const db = require("../models");
 const router = express.Router();
 
 router.get("/", function(req, res) {
-    db.Article.find({ "saved": false }, function(err, data) {
-        if (err) {
-            console.log(err);
-        } else {
-            let hbsObj = {
-                article: data
-            };
-            res.render("index", hbsObj);
-        }
-    });
-});
-
-router.get("/saved", function(req, res) {
-    db.Article
-        .find({ "saved": true })
-        .populate("note")
-        .exec(function(err, dbArticle) {
-            if (err) {
-                console.log(err);
-            } else {
-                let hbsObj = {
-                    article: dbArticle
-                };
-                res.render("saved", hbsObj);
-            }
-        });
+    res.redirect("/articles");
 });
 
 router.get("/scrape", function(req, res) {
-    request("https://rvamag.com/", function(err, response, html) {
-        const $ = cheerio.load(html);
+    axios
+        .get("https://rvamag.com/")
+        .then(function(response) {
+        const $ = cheerio.load(response.data);
 
         $("div.title-block").each(function(i, element) {
             let result = {};
@@ -49,85 +26,101 @@ router.get("/scrape", function(req, res) {
             result.summary = $(this).children("p.excerpt").text();
             result.link = $(this).children("h2.article-title").children("a").attr("href");
 
-            let newArticle = new db.Article(result);
-
-            newArticle.save(function(err, dbArticle) {
-                if (err) {
-                    console.log(err);
-                } else {
+            db.Article
+                .create(result)
+                .then(function(dbArticle) {
                     console.log(dbArticle);
-                }
-            });
+                })
+                .catch(function(err) {
+                    return res.json(err);
+                });
         });
-        res.send("Scrape Complete!");
+        res.redirect("/");
     });
 });
 
 router.get("/articles", function(req, res) {
-    db.Article.find({}, function(err, dbArticle) {
-        if (err) {
+    db.Article
+        .find({ "saved": false })
+        .sort({ _id: -1 })
+        .then(function(dbArticle) {
+            let hbsObj = {
+                article: dbArticle
+            };
+            res.render("index", hbsObj);
+        })
+        .catch(function(err) {
             res.json(err);
-        } else {
-            res.json(dbArticle);
-        }
-    });
+        });
+});
+
+router.get("/saved", function(req, res) {
+    db.Article
+        .find({ "saved": true })
+        .populate("note")
+        .then(function(dbArticle) {
+            let hbsObj = {
+                article: dbArticle
+            };
+            res.render("saved", hbsObj);
+        })
+        .catch(function(err) {
+            res.json(err);
+        });
 });
 
 router.get("/articles/:id", function(req, res) {
     db.Article.findOne({ _id: req.params.id })
     .populate("note")
-    .exec(function(err, dbArticle) {
-        if (err) {
-            res.json(err);
-        } else {
-            res.json(dbArticle);
-        }
+    .then(function(dbArticle) {
+        res.json(dbArticle);
+    })
+    .catch(function(err) {
+        res.json(err);
     });
 });
 
 router.post("/articles/save/:id", function(req, res) {
     db.Article
         .findOneAndUpdate({ _id: req.params.id }, { "saved": true })
-        .exec(function(err, dbArticle) {
-            if (err) {
-                res.json(err);
-            } else {
-                res.json(dbArticle);
-            }
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function(err) {
+            res.json(err);
         });
 });
 
 router.post("/articles/delete/:id", function(req, res) {
     db.Article
-        .findOneAndUpdate({ _id: req.params.id }, { "saved": false, "note": [] })
+        .findOneAndUpdate({ _id: req.params.id }, { "saved": false })
         .exec(function(err, dbArticle) {
             if (err) {
-                res.json(err);
+                console.log(err);
             } else {
-                res.json(dbArticle);
+                res.send(dbArticle);
             }
-        });
+        })
 });
 
 router.post("/notes/save/:id", function(req, res) {
-    let newNote = new db.Note({
+    const entry = new db.Note({
         body: req.body.text,
         article: req.params.id
     });
 
-    console.log(req.body);
-
-    newNote.save(function(err, dbNote) {
+    entry.save(function(err, note) {
         if (err) {
             console.log(err);
         } else {
-            db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { "note": dbNote }})
-            .exec(function(err) {
+            db.Article.findOneAndUpdate({ _id: req.params.id }, {$push: { "note": note }})
+            .exec(function(err, note) {
                 if (err) {
                     console.log(err);
-                    res.json(err);
+                    res.send(err);
                 } else {
-                    res.json(dbNote);
+                    console.log(note)
+                    res.send(note);
                 }
             });
         }
@@ -153,5 +146,4 @@ router.delete("/notes/delete/:note_id/:article_id", function(req, res) {
     });
 });
 
-module.exports = router;
-
+module.exports = router

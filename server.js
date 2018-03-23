@@ -6,9 +6,7 @@ const request = require("request");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 const exphbs = require("express-handlebars");
-const path = require("path");
 const mongoose = require("mongoose");
-const cheerio = require("cheerio");
 
 const PORT = process.env.DB_PORT;
 
@@ -47,6 +45,16 @@ connect.once("open", function() {
     console.log("You are connected!");
 });
 
+const db = require("./models");
+/*
+db.Article.remove({}, function(err) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log("Collection removed.");
+    }
+});
+*/
 app.use("/", router);
 
 app.listen(PORT, function() {

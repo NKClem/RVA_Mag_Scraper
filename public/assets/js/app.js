@@ -3,7 +3,7 @@ $("#scrape-btn").on("click", function() {
         method: "GET",
         url: "/scrape",
     }).done(function(data) {
-        console.log(data);
+        //console.log(data);
         window.location = "/"
     });
 });
@@ -36,19 +36,20 @@ $("#delete-article").on("click", function() {
 });
 
 $("#save-note").on("click", function() {
-    let dataId = $(this).attr("data-id");
-    if($("#note-text" + dataId).val() === "") {
-        alert("Please enter a note!");
+    const thisId = $(this).attr("data-id");
+
+    if(!$("#note-text" + thisId).val()) {
+        alert("Please complete the form to leave a note.");
     } else {
         $.ajax({
             method: "POST",
-            url: "/notes/save/" + dataId,
+            url: "/notes/save/" + thisId,
             data: {
-                text: $("#note-text" + dataId).val()
+                text: $("#note-text" + thisId).val()
             }
-        }).done(function(data) {
-            console.log(data);
-            $("#note-text" + dataId).val("");
+        }).done(function(entry) {
+            console.log(entry);
+            $("#note-text" + thisId).val("");
             $("#notes-modal").modal("hide");
             window.location = "/saved"
         });

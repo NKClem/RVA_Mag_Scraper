@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 
 let NoteSchema = new Schema({
     body: {
-        type: String
+        type: String,
+        required: true
     },
     article: {
         type: Schema.Types.ObjectId,
