@@ -127,21 +127,13 @@ router.post("/notes/save/:id", function(req, res) {
     });
 });
 
-router.delete("/notes/delete/:note_id/:article_id", function(req, res) {
-    db.Note.findOneAndRemove({ _id: req.params.note_id }, function(err) {
+router.post("/delete/note/:id", function(req, res) {
+    const noteId = req.params.id;
+    db.Note.findByIdAndRemove(noteId, function(err, note) {
         if (err) {
             console.log(err);
-            res.json(err);
         } else {
-            db.Article.findOneAndUpdate({ _id: req.params.article_id }, {$pull: { "note": req.params.note_id }})
-            .exec(function(err) {
-                if (err) {
-                    console.log(err);
-                    res.json(err);
-                } else {
-                    res.json("Note Deleted");
-                }
-            });
+            res.sendStatus(200);
         }
     });
 });

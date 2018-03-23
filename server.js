@@ -46,7 +46,7 @@ connect.once("open", function() {
 });
 
 const db = require("./models");
-/*
+
 db.Article.remove({}, function(err) {
     if (err) {
         console.log(err);
@@ -54,7 +54,7 @@ db.Article.remove({}, function(err) {
         console.log("Collection removed.");
     }
 });
-*/
+
 app.use("/", router);
 
 app.listen(PORT, function() {

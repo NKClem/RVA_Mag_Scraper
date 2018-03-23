@@ -56,13 +56,12 @@ $("#save-note").on("click", function() {
     }
 });
 
-$(".delete-note").on("click", function() {
-    let noteId = $(this).attr("data-note-id");
-    let articleId = $(this).attr("data-article-id");
+$("#delete-note").on("click", function() {
+    const noteId = $(this).attr("data-note-id");
 
     $.ajax({
-        method: "DELETE",
-        url: "/notes/delete/" + noteId + "/" + articleId
+        method: "POST",
+        url: "/delete/note/" + noteId
     }).done(function(data) {
         console.log(data);
         $(".note-modal").modal("hide");
