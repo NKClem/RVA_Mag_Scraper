@@ -21,7 +21,7 @@ app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //server public folder as a static directory
-app.use(express.static("public"));
+app.use(express.static("./public"));
 
 //express-handlebars serves views
 const hbs = exphbs.create({
