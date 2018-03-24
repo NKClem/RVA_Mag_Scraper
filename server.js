@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
 
-const PORT = process.env.DB_PORT;
+const PORT = process.env.PORT || process.env.DB_PORT;
 
 const app = express();
 
