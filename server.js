@@ -31,9 +31,16 @@ const hbs = exphbs.create({
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 
-//connect to Mongo DB
-mongoose.Promise = Promise;
-mongoose.connect("mongodb://localhost/rvaScrape");
+//database configuration with mongoose
+mongoose.promise = Promise;
+
+const databaseUri = "mongodb://localhost/rvaScrape";
+
+if (process.env.MONGODB_URI) {
+    mongoose.connect(process.env.MONGODB_URI);
+} /*else {
+    mongoose.connect(databaseUri);
+}*/
 
 const connect = mongoose.connection;
 
