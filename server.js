@@ -38,9 +38,9 @@ const databaseUri = "mongodb://localhost/rvaScrape";
 
 if (process.env.MONGODB_URI) {
     mongoose.connect(process.env.MONGODB_URI);
-} /*else {
+} else {
     mongoose.connect(databaseUri);
-}*/
+}
 
 const connect = mongoose.connection;
 
