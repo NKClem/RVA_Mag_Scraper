@@ -30,6 +30,11 @@ button:hover {
     margin: 3%
 }
 
+.article-card > .card-header > h5 {
+    display: flex;
+    flex-direction: row;
+}
+
 #delete-article {
     margin-right: 20px;
 }

@@ -34,6 +34,9 @@ app.set("view engine", "handlebars");
 //database configuration with mongoose
 mongoose.promise = Promise;
 
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useUnifiedTopology', true);
+
 const databaseUri = "mongodb://localhost/rvaScrape";
 
 if (process.env.MONGODB_URI) {
