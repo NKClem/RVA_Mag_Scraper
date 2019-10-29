@@ -39,9 +39,13 @@ button:hover {
     position: relative;
 }
 
-#save-article {
+#save-article, #saved-article-buttons {
     position: absolute;
     right: 0;
+}
+
+#see-notes, #delete-article {
+    margin: auto 10px;
 }
 
 #delete-article {
@@ -56,5 +60,14 @@ button:hover {
     #save-article {
         position: static;
         margin-top: 20px;
+    }
+
+    #saved-article-buttons {
+        position: static;
+        margin: 10px auto;
+    }
+
+    #see-notes, #delete-article {
+        min-width: 100%;
     }
 }

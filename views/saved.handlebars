@@ -13,8 +13,10 @@
                 <div class="card-header">
                     <h5>
                         {{this.title}}
-                        <button type="button" class="btn btn-success float-right" id="see-notes" data-toggle="modal" data-target="#notes-modal{{this._id}}" data-id={{this._id}}>Article Notes</button>
-                        <button type="button" class="btn btn-danger float-right" id="delete-article" data-id={{this._id}}>Remove From Saved Articles</button>
+                        <div id="saved-article-buttons">
+                            <button type="button" class="btn btn-success" id="see-notes" data-toggle="modal" data-target="#notes-modal{{this._id}}" data-id={{this._id}}>Article Notes</button>
+                            <button type="button" class="btn btn-danger" id="delete-article" data-id={{this._id}}>Remove From Saved Articles</button>
+                        </div>
                     </h5>
                 </div>
                 <div class="card-body">
