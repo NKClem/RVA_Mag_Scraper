@@ -55,5 +55,6 @@ button:hover {
 
     #save-article {
         position: static;
+        margin-top: 20px;
     }
 }
