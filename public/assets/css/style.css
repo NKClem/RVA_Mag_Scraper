@@ -47,3 +47,13 @@ button:hover {
 #delete-article {
     margin-right: 20px;
 }
+
+@media only screen and (max-width: 850px) {
+    .article-card > .card-header > h5 {
+        flex-direction: column;
+    }
+
+    #save-article {
+        position: static;
+    }
+}
