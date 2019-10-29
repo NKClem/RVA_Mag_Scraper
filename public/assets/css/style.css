@@ -35,6 +35,15 @@ button:hover {
     flex-direction: row;
 }
 
+.article-card > .card-header > h5 {
+    position: relative;
+}
+
+#save-article {
+    position: absolute;
+    right: 0;
+}
+
 #delete-article {
     margin-right: 20px;
 }
